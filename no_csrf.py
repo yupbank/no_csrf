@@ -10,7 +10,7 @@ Created on
 '''
 import requests
 from urlparse import urlparse
-
+from slow_it import slow
 
 def nicer_get(url, *args, **kwagrs):
     parsed_uri = urlparse(url)
@@ -24,6 +24,7 @@ def nicer_get(url, *args, **kwagrs):
     headers.update(dict(Referer = Referer))
     if 'cookies' not in kwagrs:
         kwagrs.update(dict(cookies = cookies))
+    @slow()
     def _(url, *args, **kwagrs):
         real_res = requests.get(url, *args, **kwagrs)
         cookies = real_res.cookies.get_dict()
